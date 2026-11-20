@@ -60,7 +60,88 @@
       <div class="actions">
         <button id="answerCallBtn" class="btn btn-blue">ATENDRE TRUCADA</button>
         <button id="finishCallBtn" class="btn btn-dark">FINALITZAR</button>
-      </div>
+      </div
+        
+<div class="divider"></div>
+
+<section class="interrogation">
+  <div class="panel-heading">
+    <h2>INTERROGATORI DE L'ALERTANT</h2>
+    <span class="counter" id="interrogationTimer">00:00</span>
+  </div>
+
+  <div class="scenario-controls">
+    <label for="scenarioSelect">ESCENARI DE SIMULACIÓ</label>
+    <select id="scenarioSelect">
+      <option value="medical">Emergència mèdica · Persona inconscient</option>
+      <option value="traffic">Accident de trànsit · Diversos vehicles</option>
+      <option value="fire">Incendi · Habitatge</option>
+      <option value="rescue">Rescat · Persona accidentada</option>
+    </select>
+    <button id="startScenarioBtn" class="btn btn-gold full">
+      INICIAR ESCENARI AMB ALERTANT
+    </button>
+  </div>
+
+  <div class="caller-profile">
+    <div>
+      <small>PERFIL DE L'ALERTANT</small>
+      <strong id="callerProfile">Sense alertant</strong>
+    </div>
+    <div>
+      <small>ESTAT EMOCIONAL</small>
+      <strong id="callerEmotion">—</strong>
+    </div>
+  </div>
+
+  <div id="conversationLog" class="conversation-log">
+    <p class="empty">La conversa apareixerà aquí.</p>
+  </div>
+
+  <div class="field">
+    <label for="operatorQuestion">PREGUNTA DE L'OPERADOR</label>
+    <textarea id="operatorQuestion" rows="2"
+      placeholder="Escriu la pregunta que faries a l'alertant..."></textarea>
+  </div>
+
+  <div class="actions">
+    <button id="askQuestionBtn" class="btn btn-blue">ENVIAR PREGUNTA</button>
+    <button id="voiceQuestionBtn" class="btn btn-dark">🎙 DICTAR PREGUNTA</button>
+    <button id="repeatCallerBtn" class="btn btn-dark">REPETIR RESPOSTA</button>
+  </div>
+
+  <div class="divider"></div>
+  <h3>INFORMACIÓ ESSENCIAL RECOLLIDA</h3>
+  <div class="essential-grid">
+    <div><small>QUÈ HA PASSAT?</small><strong id="slotWhat">Pendent</strong></div>
+    <div><small>ON HA PASSAT?</small><strong id="slotWhere">Pendent</strong></div>
+    <div><small>PERSONES AFECTADES</small><strong id="slotWho">Pendent</strong></div>
+    <div><small>RISCOS ACTUALS</small><strong id="slotRisk">Pendent</strong></div>
+    <div><small>ESTAT DE LA VÍCTIMA</small><strong id="slotCondition">Pendent</strong></div>
+    <div><small>MESURES REALITZADES</small><strong id="slotActions">Pendent</strong></div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>AVALUACIÓ DE L'INTERROGATORI</h3>
+  <div class="interrogation-score">
+    <div>
+      <small>QUALITAT DE LES PREGUNTES</small>
+      <strong id="questionScore">—</strong>
+    </div>
+    <div>
+      <small>INFORMACIÓ ESSENCIAL</small>
+      <strong id="informationScore">0/6</strong>
+    </div>
+    <div>
+      <small>TEMPS D'INTERROGATORI</small>
+      <strong id="interrogationDuration">00:00</strong>
+    </div>
+  </div>
+  <p id="interrogationFeedback" class="micro-note">
+    Inicia un escenari per començar l'avaluació.
+  </p>
+</section>
+
       <div class="divider"></div>
       <h3>REGISTRE DE TRUCADES</h3>
       <div id="callHistory" class="scroll-list empty">No hi ha trucades registrades.</div>
