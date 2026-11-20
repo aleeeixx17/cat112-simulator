@@ -3,94 +3,185 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Simulador educatiu de teleemergències">
-  <title>CAT112 Simulator | Central CAD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1420">
+  <title>CAT112 Simulator | CAD Advanced</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<header>
-  <div>
-    <h1>CAT112 SIMULATOR</h1>
-    <p>CENTRAL DE GESTIÓ D'EMERGÈNCIES · ENTORN EDUCATIU</p>
-  </div>
-  <div id="systemStatus" class="status">SISTEMA PREPARAT</div>
-</header>
-
-<main>
-
-  <section class="panel">
-    <h2>Control de simulació</h2>
-    <div class="actions">
-      <button onclick="startSimulation()">Iniciar simulació</button>
-      <button class="secondary" onclick="stopSimulation()">Aturar simulació</button>
-      <button class="secondary" onclick="exportData()">Exportar dades</button>
-    </div>
-    <p id="simulationMessage" class="muted">
-      Esperant inici de la simulació.
-    </p>
-  </section>
-
-  <section class="grid" style="margin-top:16px">
-
-    <div class="panel">
-      <h2>Estadístiques de central</h2>
-      <div class="grid">
-        <div>
-          <div id="callCount" class="metric">0</div>
-          <div class="muted">Trucades simulades</div>
-        </div>
-        <div>
-          <div id="incidentCount" class="metric">0</div>
-          <div class="muted">Incidents registrats</div>
-        </div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">112</div>
+      <div>
+        <h1>CAT112 <span>SIMULATOR</span></h1>
+        <small>CENTRAL DE COORDINACIÓ · ENTORN EDUCATIU</small>
       </div>
     </div>
-
-    <div class="panel">
-      <h2>Nova incidència</h2>
-
-      <label for="emergencyType">Tipus d'emergència</label>
-      <select id="emergencyType">
-        <option>Emergència mèdica</option>
-        <option>Accident de trànsit</option>
-        <option>Incendi</option>
-        <option>Rescat</option>
-        <option>Seguretat ciutadana</option>
-        <option>Protecció Civil</option>
-      </select>
-
-      <label for="location">Ubicació</label>
-      <input id="location" placeholder="Municipi, carrer i número">
-
-      <label for="description">Descripció de l'emergència</label>
-      <textarea id="description" rows="3"
-        placeholder="Informació facilitada per l'alertant"></textarea>
-
-      <button onclick="createIncident()">Registrar incidència</button>
+    <div class="top-info">
+      <div><small>OPERADOR</small><strong>OPERADOR 01</strong></div>
+      <div><small>POSICIÓ</small><strong>DEMANDA + RESPOSTA</strong></div>
+      <div><small>RELLOTGE</small><strong id="clock">--:--:--</strong></div>
+      <div class="system-pill"><i></i><span id="systemStatus">SISTEMA PREPARAT</span></div>
     </div>
+  </header>
 
-    <div class="panel">
-      <h2>Incidents actius</h2>
-      <div id="incidentList">
-        <p class="muted">No hi ha incidents registrats.</p>
+  <nav class="toolbar">
+    <button id="startBtn" class="btn btn-green">▶ INICIAR SIMULACIÓ</button>
+    <button id="stopBtn" class="btn btn-red">■ ATURAR</button>
+    <button id="newCallBtn" class="btn btn-gold">＋ NOVA TRUCADA</button>
+    <button id="exportBtn" class="btn btn-dark">⇩ EXPORTAR DADES</button>
+    <span class="toolbar-note">MODE SINGLE · DIFICULTAT ADVANCED</span>
+  </nav>
+
+  <main class="dashboard">
+    <section class="panel call-panel">
+      <div class="panel-heading">
+        <h2><span class="live-dot"></span> TELEFONIA / TRUCADES</h2>
+        <span class="counter" id="callCounter">0</span>
       </div>
-    </div>
+      <div class="call-state" id="callState">CAP TRUCADA EN CURS</div>
+      <div class="call-details">
+        <div><small>IDENTIFICADOR</small><strong id="callId">—</strong></div>
+        <div><small>DURADA</small><strong id="callDuration">00:00</strong></div>
+        <div><small>ALERTANT</small><strong id="callerName">—</strong></div>
+      </div>
+      <div class="field">
+        <label for="callerInput">IDENTIFICACIÓ ALERTANT</label>
+        <input id="callerInput" placeholder="Nom o descripció de l'alertant">
+      </div>
+      <div class="field">
+        <label for="locationInput">UBICACIÓ DE L'EMERGÈNCIA</label>
+        <input id="locationInput" placeholder="Adreça, municipi, referència...">
+      </div>
+      <div class="field">
+        <label for="callNotes">INFORMACIÓ FACILITADA</label>
+        <textarea id="callNotes" rows="3" placeholder="Què ha passat? Quantes persones afectades? Riscos?"></textarea>
+      </div>
+      <div class="actions">
+        <button id="answerCallBtn" class="btn btn-blue">ATENDRE TRUCADA</button>
+        <button id="finishCallBtn" class="btn btn-dark">FINALITZAR</button>
+      </div>
+      <div class="divider"></div>
+      <h3>REGISTRE DE TRUCADES</h3>
+      <div id="callHistory" class="scroll-list empty">No hi ha trucades registrades.</div>
+    </section>
 
-    <div class="panel">
-      <h2>Estat de recursos</h2>
-      <div id="unitList"></div>
-    </div>
+    <section class="panel incident-panel">
+      <div class="panel-heading">
+        <h2>GESTIÓ D'INCIDENTS / CAD</h2>
+        <span class="counter" id="incidentCounter">0</span>
+      </div>
+      <div class="field">
+        <label for="incidentType">TIPOLOGIA</label>
+        <select id="incidentType">
+          <option value="Emergència mèdica">Emergència mèdica</option>
+          <option value="Accident de trànsit">Accident de trànsit</option>
+          <option value="Incendi">Incendi</option>
+          <option value="Rescat">Rescat</option>
+          <option value="Seguretat ciutadana">Seguretat ciutadana</option>
+          <option value="Protecció Civil">Protecció Civil</option>
+          <option value="Altres">Altres</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="priority">PRIORITAT</label>
+        <select id="priority">
+          <option value="Crítica">P1 · Crítica</option>
+          <option value="Alta">P2 · Alta</option>
+          <option value="Moderada">P3 · Moderada</option>
+          <option value="Baixa">P4 · Baixa</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="incidentLocation">LOCALITZACIÓ CONFIRMADA</label>
+        <input id="incidentLocation" placeholder="Adreça i municipi">
+      </div>
+      <div class="field">
+        <label for="incidentDescription">DESCRIPCIÓ OPERATIVA</label>
+        <textarea id="incidentDescription" rows="3" placeholder="Resum de la situació i riscos detectats"></textarea>
+      </div>
+      <button id="createIncidentBtn" class="btn btn-gold full">CREAR INCIDENT CAD</button>
+      <div class="divider"></div>
+      <h3>INCIDENTS ACTIUS</h3>
+      <div id="incidentList" class="scroll-list empty">No hi ha incidents actius.</div>
+    </section>
 
-  </section>
-</main>
+    <section class="panel resource-panel">
+      <div class="panel-heading">
+        <h2>ESTAT DE RECURSOS</h2>
+        <span class="counter" id="availableCounter">0</span>
+      </div>
+      <div class="resource-summary">
+        <span><i class="dot dot-green"></i> Disponible</span>
+        <span><i class="dot dot-yellow"></i> Activat / En ruta</span>
+        <span><i class="dot dot-red"></i> Ocupat</span>
+      </div>
+      <div id="resourceList" class="scroll-list"></div>
+      <div class="divider"></div>
+      <h3>ASSIGNACIÓ DE RECURSOS</h3>
+      <div class="field">
+        <label for="assignIncident">INCIDENT</label>
+        <select id="assignIncident"></select>
+      </div>
+      <div class="field">
+        <label for="assignUnit">UNITAT</label>
+        <select id="assignUnit"></select>
+      </div>
+      <button id="assignBtn" class="btn btn-blue full">ASSIGNAR UNITAT</button>
+    </section>
 
-<footer>
-  CAT112 SIMULATOR · PROJECTE EDUCATIU NO OFICIAL
-  <br>Les dades i els recursos són ficticis.
-</footer>
+    <section class="panel radio-panel">
+      <div class="panel-heading">
+        <h2>COMUNICACIONS / RÀDIO</h2>
+        <span class="radio-indicator">● TX/RX SIMULAT</span>
+      </div>
+      <div class="radio-channel">
+        <label for="radioChannel">CANAL</label>
+        <select id="radioChannel">
+          <option value="GENERAL">GENERAL</option>
+          <option value="SEM">SEM</option>
+          <option value="BOMBERS">BOMBERS</option>
+          <option value="MOSSOS">MOSSOS</option>
+          <option value="POLICIA LOCAL">POLICIA LOCAL</option>
+          <option value="PROTECCIÓ CIVIL">PROTECCIÓ CIVIL</option>
+        </select>
+      </div>
+      <div id="radioLog" class="radio-log">
+        <div class="empty">Esperant comunicacions...</div>
+      </div>
+      <div class="radio-compose">
+        <input id="radioMessage" placeholder="Escriu el missatge de ràdio...">
+        <button id="sendRadioBtn" class="btn btn-gold">ENVIAR</button>
+      </div>
+      <p class="micro-note">Comunicacions fictícies. No s'utilitzen xarxes de ràdio reals.</p>
+    </section>
 
-<script src="app.js"></script>
+    <section class="panel timeline-panel">
+      <div class="panel-heading">
+        <h2>CRONOLOGIA OPERATIVA</h2>
+        <button id="clearTimelineBtn" class="btn btn-dark btn-small">NETEJAR</button>
+      </div>
+      <div id="timeline" class="timeline empty">Encara no hi ha esdeveniments.</div>
+    </section>
+
+    <section class="panel evaluation-panel">
+      <div class="panel-heading">
+        <h2>AVALUACIÓ DE L'OPERADOR</h2>
+        <span class="counter">FORMACIÓ</span>
+      </div>
+      <div class="evaluation-grid">
+        <div><strong>—</strong><small>Temps interrogatori</small></div>
+        <div><strong>—</strong><small>Qualitat preguntes</small></div>
+        <div><strong>—</strong><small>Ubicació</small></div>
+        <div><strong>—</strong><small>Classificació</small></div>
+        <div><strong>—</strong><small>Recursos</small></div>
+        <div><strong>—</strong><small>Activació / resposta</small></div>
+      </div>
+      <p class="micro-note">L'avaluació automàtica es desenvoluparà en el mòdul formatiu corresponent.</p>
+    </section>
+  </main>
+
+  <footer>CAT112 SIMULATOR · PROJECTE EDUCATIU NO OFICIAL · DADES I UNITATS FICTÍCIES</footer>
+  <script src="app.js"></script>
 </body>
 </html>
