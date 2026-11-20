@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAT112 Simulator</title>
+  <style>
+    body {
+      margin: 0;
+      background: #101820;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #172b3a;
+      padding: 22px;
+      border-bottom: 3px solid #e0a526;
+    }
+
+    h1 {
+      margin: 0;
+      color: #f4bd45;
+    }
+
+    main {
+      padding: 24px;
+    }
+
+    .panel {
+      background: #1c3040;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+    }
+
+    button {
+      background: #e0a526;
+      color: #101820;
+      border: 0;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>CAT112 SIMULATOR</h1>
+    <p>Central de gestió d'emergències - Entorn educatiu</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Central de coordinació</h2>
+      <p>Benvingut/da a la simulació de teleemergències.</p>
+      <button onclick="iniciarSimulacio()">
+        Iniciar simulació
+      </button>
+      <p id="estat">Sistema preparat.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Gestió d'incidents</h2>
+      <p>Encara no hi ha incidents actius.</p>
+    </section>
+  </main>
+
+  <script>
+    function iniciarSimulacio() {
+      document.getElementById("estat").textContent =
+        "Simulació iniciada correctament.";
+    }
+  </script>
+
+</body>
+</html>
