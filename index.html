@@ -3,78 +3,94 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAT112 Simulator</title>
-  <style>
-    body {
-      margin: 0;
-      background: #101820;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-
-    header {
-      background: #172b3a;
-      padding: 22px;
-      border-bottom: 3px solid #e0a526;
-    }
-
-    h1 {
-      margin: 0;
-      color: #f4bd45;
-    }
-
-    main {
-      padding: 24px;
-    }
-
-    .panel {
-      background: #1c3040;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 18px;
-    }
-
-    button {
-      background: #e0a526;
-      color: #101820;
-      border: 0;
-      padding: 12px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulador educatiu de teleemergències">
+  <title>CAT112 Simulator | Central CAD</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <header>
+<header>
+  <div>
     <h1>CAT112 SIMULATOR</h1>
-    <p>Central de gestió d'emergències - Entorn educatiu</p>
-  </header>
+    <p>CENTRAL DE GESTIÓ D'EMERGÈNCIES · ENTORN EDUCATIU</p>
+  </div>
+  <div id="systemStatus" class="status">SISTEMA PREPARAT</div>
+</header>
 
-  <main>
-    <section class="panel">
-      <h2>Central de coordinació</h2>
-      <p>Benvingut/da a la simulació de teleemergències.</p>
-      <button onclick="iniciarSimulacio()">
-        Iniciar simulació
-      </button>
-      <p id="estat">Sistema preparat.</p>
-    </section>
+<main>
 
-    <section class="panel">
-      <h2>Gestió d'incidents</h2>
-      <p>Encara no hi ha incidents actius.</p>
-    </section>
-  </main>
+  <section class="panel">
+    <h2>Control de simulació</h2>
+    <div class="actions">
+      <button onclick="startSimulation()">Iniciar simulació</button>
+      <button class="secondary" onclick="stopSimulation()">Aturar simulació</button>
+      <button class="secondary" onclick="exportData()">Exportar dades</button>
+    </div>
+    <p id="simulationMessage" class="muted">
+      Esperant inici de la simulació.
+    </p>
+  </section>
 
-  <script>
-    function iniciarSimulacio() {
-      document.getElementById("estat").textContent =
-        "Simulació iniciada correctament.";
-    }
-  </script>
+  <section class="grid" style="margin-top:16px">
 
+    <div class="panel">
+      <h2>Estadístiques de central</h2>
+      <div class="grid">
+        <div>
+          <div id="callCount" class="metric">0</div>
+          <div class="muted">Trucades simulades</div>
+        </div>
+        <div>
+          <div id="incidentCount" class="metric">0</div>
+          <div class="muted">Incidents registrats</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Nova incidència</h2>
+
+      <label for="emergencyType">Tipus d'emergència</label>
+      <select id="emergencyType">
+        <option>Emergència mèdica</option>
+        <option>Accident de trànsit</option>
+        <option>Incendi</option>
+        <option>Rescat</option>
+        <option>Seguretat ciutadana</option>
+        <option>Protecció Civil</option>
+      </select>
+
+      <label for="location">Ubicació</label>
+      <input id="location" placeholder="Municipi, carrer i número">
+
+      <label for="description">Descripció de l'emergència</label>
+      <textarea id="description" rows="3"
+        placeholder="Informació facilitada per l'alertant"></textarea>
+
+      <button onclick="createIncident()">Registrar incidència</button>
+    </div>
+
+    <div class="panel">
+      <h2>Incidents actius</h2>
+      <div id="incidentList">
+        <p class="muted">No hi ha incidents registrats.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Estat de recursos</h2>
+      <div id="unitList"></div>
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  CAT112 SIMULATOR · PROJECTE EDUCATIU NO OFICIAL
+  <br>Les dades i els recursos són ficticis.
+</footer>
+
+<script src="app.js"></script>
 </body>
 </html>
