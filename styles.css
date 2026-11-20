@@ -85,3 +85,118 @@ textarea{resize:vertical}
 footer{text-align:center;color:var(--muted);padding:16px;font-size:9px;letter-spacing:.7px}
 @media(max-width:1100px){.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}.top-info{gap:10px}}
 @media(max-width:700px){.dashboard{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.top-info{width:100%;flex-wrap:wrap}.toolbar-note{width:100%;margin:4px 0}.call-details{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* TELEFONIA I INTERROGATORI AVANÇAT */
+
+.interrogation {
+  margin-top: 10px;
+}
+
+.scenario-controls {
+  background: var(--panel2);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.caller-profile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.caller-profile > div,
+.essential-grid > div,
+.interrogation-score > div {
+  background: var(--panel2);
+  padding: 9px;
+  border-radius: 4px;
+}
+
+.caller-profile small,
+.caller-profile strong,
+.essential-grid small,
+.essential-grid strong,
+.interrogation-score small,
+.interrogation-score strong {
+  display: block;
+}
+
+.caller-profile small,
+.essential-grid small,
+.interrogation-score small {
+  color: var(--muted);
+  font-size: 8px;
+  margin-bottom: 6px;
+}
+
+.caller-profile strong {
+  font-size: 11px;
+}
+
+.conversation-log {
+  background: #091521;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px;
+  height: 210px;
+  overflow-y: auto;
+  margin: 10px 0;
+}
+
+.chat-message {
+  margin-bottom: 10px;
+  max-width: 95%;
+  padding: 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.chat-message.operator {
+  background: #183d5c;
+  margin-left: auto;
+}
+
+.chat-message.caller {
+  background: #263545;
+  margin-right: auto;
+}
+
+.chat-message small {
+  display: block;
+  color: var(--gold);
+  font-size: 9px;
+  margin-bottom: 4px;
+}
+
+.essential-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 7px;
+}
+
+.essential-grid strong {
+  font-size: 10px;
+  font-weight: normal;
+  overflow-wrap: anywhere;
+}
+
+.interrogation-score {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 7px;
+}
+
+.interrogation-score strong {
+  font-size: 17px;
+  color: var(--gold);
+}
+
+@media(max-width:450px) {
+  .essential-grid {
+    grid-template-columns: 1fr;
+  }
+}
